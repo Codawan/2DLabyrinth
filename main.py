@@ -21,8 +21,8 @@ pygame.display.set_caption(WINDOW_TITLE)
 # Let's draw the labyrinth once here
 wall_file = pygame.image.load(WALL_SPRITE)
 level = Labyrinth(LEVEL_FILE)
+print(level.level_load())
 level.level_display(screen, wall_file, SQUARED_OFFSET)
-pygame.display.flip()
 
 macgyver = pygame.image.load(MACGYVER_SPRITE) 
 player = Character(SPAWN, macgyver)

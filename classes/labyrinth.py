@@ -3,35 +3,57 @@ class Labyrinth:
     def __init__(self, level_file):
         self.level_file = level_file
 
-    def level_display(self, screen, wall_sprite, offset):
+    def level_load(self):
         '''
             Loads a level from a .txt file,
-            extract each line and remove space at
-            their end.
+            remove space between lines and create
+            a new list
         '''
-
-        line_pos = []
-        col_pos = []
+        level_structure = []
         with open(self.level_file, 'r') as file:
             labyrinth = file.readlines()
-            n_line = 0 # line number
             for n_line in range(0, len(labyrinth)):
-                # allows to remove space between every lines
+                # let's remove spaces at the end of each line
                 labyrinth[n_line] = labyrinth[n_line].strip()
-                line_pos.append(labyrinth[n_line])
-            print(line_pos)
+            for line in labyrinth:
+                level_structure.append(line)
+        return level_structure
+
+    def level_display(self, screen, wall_sprite, offset):
+        '''
+            Uses pygame to display the level as graphics
+
+            screen = the display screen
+            wall_sprite = pygame surface made of image file
+            offset = offset defined by the size of each tile on screen
+        '''
+        # init sprite coordinates, on top left of the screen
+        sprite_x = 0
+        sprite_y = 0
+        level_loaded = self.level_load()
+        for line in level_loaded:
+            for tile in line:
+                if tile == 'W':
+                    screen.blit(wall_sprite, (sprite_x, sprite_y))
+                    sprite_x += offset
+                else:
+                    sprite_x += offset
+            sprite_y += offset
+            sprite_x = 0
+
+                
               
                 
                 
                 
-                '''for tile in labyrinth[n_line]:
-                    if tile == 'W':
-                        screen.blit(wall_sprite, (sprite_x, sprite_y))
-                        sprite_x += offset
-                    else:
-                        sprite_x += offset
-                sprite_y += offset
-                sprite_x = 0'''
+        '''for tile in labyrinth[n_line]:
+            if tile == 'W':
+                screen.blit(wall_sprite, (sprite_x, sprite_y))
+                sprite_x += offset
+            else:
+                sprite_x += offset
+            sprite_y += offset
+            sprite_x = 0'''
 
                 
                 

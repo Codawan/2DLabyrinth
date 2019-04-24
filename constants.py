@@ -15,3 +15,5 @@ MACGYVER_SPRITE = 'assets/macgyver.png'
 
 # Ennemy attributes
 MURDOC_SPRITE = 'assets/murdoc.png'
+
+BLACK = (0,0,0)

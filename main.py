@@ -15,8 +15,10 @@ from classes.character import *
 
 pygame.init()
 
+# Let's initialize our window
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), RESIZABLE)
 pygame.display.set_caption(WINDOW_TITLE)
+screen.fill(BLACK) # our background is set to black
 
 # Let's draw the labyrinth once here
 wall_file = pygame.image.load(WALL_SPRITE)
@@ -59,7 +61,10 @@ while running:
             if event.key == K_ESCAPE:
                 pygame.quit()
                 sys.exit(0)
-    
+
+    # Let's update each graphical element   
+    screen.fill(BLACK)
+    laby.level_display(screen, wall_file, SQUARED_OFFSET)
     screen.blit(macgyver, (player_pos[1]* SQUARED_OFFSET, player_pos[0]* SQUARED_OFFSET))
 
     pygame.display.flip()

@@ -49,18 +49,18 @@ while running:
         # Check for player's input during the game
         if event.type == KEYDOWN:
             if event.key == K_UP:
-                player_pos = player.char_check_displacement(level_struct, player_pos[0], player_pos[1] - 1)
+                player_pos = player.char_displacement('up', player_pos)
             if event.key == K_DOWN:
-                player_pos = player.char_check_displacement(level_struct, player_pos[0], player_pos[1] + 1)
+                player_pos = player.char_displacement('down', player_pos)
             if event.key == K_LEFT:
-                player_pos = player.char_check_displacement(level_struct, player_pos[0] -1 , player_pos[1]) 
+                player_pos = player.char_displacement('left', player_pos)
             if event.key == K_RIGHT:
-                player_pos = player.char_check_displacement(level_struct, player_pos[0] + 1, player_pos[1]) 
+                player_pos = player.char_displacement('right', player_pos)
             if event.key == K_ESCAPE:
                 pygame.quit()
                 sys.exit(0)
     
-    screen.blit(macgyver, (player_pos[0]* SQUARED_OFFSET, player_pos[1]* SQUARED_OFFSET))
+    screen.blit(macgyver, (player_pos[1]* SQUARED_OFFSET, player_pos[0]* SQUARED_OFFSET))
 
     pygame.display.flip()
         

@@ -20,14 +20,19 @@ pygame.display.set_caption(WINDOW_TITLE)
 
 # Let's draw the labyrinth once here
 wall_file = pygame.image.load(WALL_SPRITE)
-level = Labyrinth(LEVEL_FILE)
-print(level.level_load())
-level.level_display(screen, wall_file, SQUARED_OFFSET)
+laby = Labyrinth(LEVEL_FILE)
+laby.level_display(screen, wall_file, SQUARED_OFFSET)
+pygame.display.flip()
+
+# We will use 'extracted' level data to move our character
+level_struct = laby.level_load()
 
 macgyver = pygame.image.load(MACGYVER_SPRITE) 
-player = Character(SPAWN, macgyver)
-player.character_display(screen)
-pygame.display.flip()
+player = Character(macgyver)
+
+# initialize player's position
+player_pos = SPAWN
+
 # variable to keep our main loop running:
 running = True
 
@@ -44,13 +49,21 @@ while running:
         # Check for player's input during the game
         if event.type == KEYDOWN:
             if event.key == K_UP:
-                pass
+                player_pos == player.char_check_displacement(level_struct, player_pos[0] - 1, player_pos[1]) 
             if event.key == K_DOWN:
-                pass
+                player_pos == player.char_check_displacement(level_struct, player_pos[0] + 1, player_pos[1]) 
             if event.key == K_LEFT:
-                pass
+                player_pos == player.char_check_displacement(level_struct, player_pos[0], player_pos[1] - 1) 
             if event.key == K_RIGHT:
-                pass
+                player_pos == player.char_check_displacement(level_struct, player_pos[0], player_pos[1] + 1) 
             if event.key == K_ESCAPE:
                 pygame.quit()
                 sys.exit(0)
+
+    if player_pos == None:
+        continue
+    else:
+        player.character_display(screen, player_pos[1] * SQUARED_OFFSET, player_pos[0] *  SQUARED_OFFSET)
+
+    pygame.display.flip()
+        

@@ -30,8 +30,7 @@ class Labyrinth:
         # init sprite coordinates, on top left of the screen
         sprite_x = 0
         sprite_y = 0
-        level_loaded = self.level_load()
-        for line in level_loaded:
+        for line in self.level_load():
             for tile in line:
                 if tile == 'W':
                     screen.blit(wall_sprite, (sprite_x, sprite_y))
@@ -40,21 +39,3 @@ class Labyrinth:
                     sprite_x += offset
             sprite_y += offset
             sprite_x = 0
-
-                
-              
-                
-                
-                
-        '''for tile in labyrinth[n_line]:
-            if tile == 'W':
-                screen.blit(wall_sprite, (sprite_x, sprite_y))
-                sprite_x += offset
-            else:
-                sprite_x += offset
-            sprite_y += offset
-            sprite_x = 0'''
-
-                
-                
-                # if labyrinth[i], print a given sprite, with a given offset

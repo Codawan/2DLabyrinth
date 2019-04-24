@@ -10,7 +10,7 @@ LEVEL_FILE = 'assets/level.txt'
 WALL_SPRITE = 'assets/wall.png'
 
 # Player character attributes
-SPAWN = [2,2]
+SPAWN = [2,1]
 MACGYVER_SPRITE = 'assets/macgyver.png'
 
 # Ennemy attributes

@@ -7,37 +7,31 @@ class Character:
         '''
         self.char_sprite = char_sprite
 
-    def char_check_displacement(self, level_structure, displacement, line_pos, col_pos):
+    def char_displacement(self, displacement, init_pos, level_structure):
         '''
-            A level structure given, this function checks
-            if the player can move, or not, in any direction.
-        
-            level_structure: an array containing the level
+            We check player input and detect if a movement is allowed or not
+            (is there a Wall 'W' on the way?)
+
+            For example, if the player presses K_UP, the main scripts returns
+            'up' as an argument to this function. If the character on the same column
+            but on the line on top is not a wall (written 'W'), the movement is allowed.
+            Then the new position is return.
+
+            displacement: the input returned by a Keydown event in the main script
+            init_pos: player's initial position in the labyrinth
+            level_structure: an array that represents the level structure
         '''
-        for line in level_structure:
-            for tile in line:
-                if displacement == 'up' and level_structure[line_pos-1][col_pos] != 'W':
-                    print('good')
 
-                elif displacement == 'down':
-                    print('down')
-                elif displacement == 'left':
-                    print('left')
-                elif displacement == 'right':
-                    print('right')
-
-    def char_displacement(self, displacement, init_pos):
-        
         line_pos = init_pos[0]
         col_pos = init_pos[1]
         
-        if displacement == 'up':
+        if displacement == 'up' and level_structure[line_pos - 1][col_pos] != 'W':
             line_pos -= 1
-        elif displacement == 'down':
+        elif displacement == 'down' and level_structure[line_pos + 1][col_pos] != 'W':
             line_pos += 1
-        elif displacement == 'left':
+        elif displacement == 'left' and level_structure[line_pos][col_pos - 1] != 'W':
             col_pos -= 1
-        elif displacement == 'right':
+        elif displacement == 'right' and level_structure[line_pos][col_pos +1] != 'W':
             col_pos += 1
         
         return [line_pos, col_pos]

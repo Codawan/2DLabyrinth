@@ -28,3 +28,14 @@ class Character:
             col_pos += 1
         
         return [line_pos, col_pos]
+
+    def character_spawn(self, level_structure):
+        '''
+        Method used to return player's position at the beginning of the game
+        '''
+        spawn_coordinates = []
+        for line in level_structure:
+            for tile in line:
+                if tile == 'S':
+                    spawn_coordinates = [level_structure.index(line), line.index(tile)]
+        return spawn_coordinates

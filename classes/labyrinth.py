@@ -21,7 +21,7 @@ class Labyrinth:
 
     def level_display(self, screen, wall_sprite, offset):
         '''
-            Uses pygame to display the level as graphics
+            Uses pygame to display the level as graphic elements.
 
             screen = the display screen
             wall_sprite = pygame surface made of image file

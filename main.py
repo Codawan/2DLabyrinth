@@ -33,7 +33,7 @@ macgyver = pygame.image.load(MACGYVER_SPRITE)
 player = Character()
 
 # initialize player's position
-player_pos = SPAWN
+player_pos = player.character_spawn(level_struct)
 print(player_pos)
 # variable to keep our main loop running:
 running = True

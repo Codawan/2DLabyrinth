@@ -7,7 +7,7 @@ import constants
 from constants import *
 
 import classes.labyrinth
-from classes.labyrinth import *
+from classes import labyrinth as lab
 
 import classes.character
 from classes.character import *
@@ -22,7 +22,7 @@ screen.fill(BLACK) # our background is set to black
 
 # Let's draw the labyrinth once here
 wall_file = pygame.image.load(WALL_SPRITE)
-laby = Labyrinth(LEVEL_FILE)
+laby = lab.Labyrinth(LEVEL_FILE)
 laby.level_display(screen, wall_file, SQUARED_OFFSET)
 pygame.display.flip()
 
@@ -30,7 +30,7 @@ pygame.display.flip()
 level_struct = laby.level_load()
 
 macgyver = pygame.image.load(MACGYVER_SPRITE) 
-player = Character(macgyver)
+player = Character()
 
 # initialize player's position
 player_pos = SPAWN

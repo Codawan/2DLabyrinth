@@ -1,12 +1,5 @@
 class Character:
 
-    def __init__(self, char_sprite):
-        '''
-            player_position: character's position at the beginning of the game
-            char_sprite: the sprite drawn on the character
-        '''
-        self.char_sprite = char_sprite
-
     def char_displacement(self, displacement, init_pos, level_structure):
         '''
             We check player input and detect if a movement is allowed or not

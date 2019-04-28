@@ -3,6 +3,7 @@ SCREEN_WIDTH = 450
 SCREEN_HEIGHT = 450
 TILE_NUMBER = 15
 SQUARED_OFFSET = SCREEN_WIDTH / TILE_NUMBER
+TILE_SIZE = int(SCREEN_WIDTH / TILE_NUMBER)
 WINDOW_TITLE = 'MacGyver and the mighty 2D Labyrinth'
 
 # Level structure
@@ -16,4 +17,10 @@ MACGYVER_SPRITE = 'assets/macgyver.png'
 # Ennemy attributes
 MURDOC_SPRITE = 'assets/murdoc.png'
 
+# Colors
 BLACK = (0,0,0)
+
+# Item sprites
+ETHER_SPRITE = 'assets/ether.png'
+SYRINGE_SPRITE = 'assets/syringe.png'
+NEEDLE_SPRITE = 'assets/needle.png'

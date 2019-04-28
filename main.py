@@ -12,6 +12,9 @@ from classes import labyrinth as lab
 import classes.character
 from classes.character import *
 
+import classes.items
+from classes.items import Item as item
+
 
 pygame.init()
 
@@ -37,6 +40,27 @@ player_pos = player.character_spawn(level_struct)
 print(player_pos)
 # variable to keep our main loop running:
 running = True
+
+# Add our first item: Ether
+ether = pygame.image.load(ETHER_SPRITE)
+ether = pygame.transform.scale(ether, (TILE_SIZE, TILE_SIZE))
+ether_item = item(level_struct)
+ether_position = ether_item.item_positioning()
+print("ether:",ether_position[1])
+
+# Add our second item: Syringe
+syringe = pygame.image.load(SYRINGE_SPRITE)
+syringe = pygame.transform.scale(syringe, (TILE_SIZE, TILE_SIZE))
+syringe_item = item(level_struct)
+syringe_position = syringe_item.item_positioning()
+print("syringe:",syringe_position[1])
+
+# Add our third item: Needle
+needle = pygame.image.load(NEEDLE_SPRITE)
+needle = pygame.transform.scale(needle, (TILE_SIZE, TILE_SIZE))
+needle_item = item(level_struct)
+needle_position = needle_item.item_positioning()
+print("needle:",needle_position[1])
 
 # Our main loop:
 while running:
@@ -66,6 +90,9 @@ while running:
     # Let's update each graphical element   
     screen.fill(BLACK)
     laby.level_display(screen, wall_file, SQUARED_OFFSET)
+    screen.blit(ether, (ether_position[1][0]*SQUARED_OFFSET, ether_position[1][1]*SQUARED_OFFSET))
+    screen.blit(syringe, (syringe_position[1][0]*SQUARED_OFFSET, syringe_position[1][1]*SQUARED_OFFSET))
+    screen.blit(needle, (needle_position[1][0]*SQUARED_OFFSET, needle_position[1][1]*SQUARED_OFFSET))  
     screen.blit(macgyver, (player_pos[1]* SQUARED_OFFSET, player_pos[0]* SQUARED_OFFSET))
 
     pygame.display.flip()

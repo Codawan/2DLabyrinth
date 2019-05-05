@@ -1,6 +1,21 @@
 class Character:
 
-    def char_displacement(self, displacement, init_pos, level_structure):
+    def __init__(self, level_structure):
+
+        # Let's get player coordinates at the begining of the game
+        spawn_coordinates = []
+        for line in level_structure:
+            for tile in line:
+                if tile == 'S':
+                    spawn_coordinates = [level_structure.index(line), line.index(tile)]        
+        self.line_pos = spawn_coordinates[0]
+        self.col_pos = spawn_coordinates[1]
+        # Let's set the amount of items the player get
+        self.items_count = 0
+        
+
+
+    def char_displacement(self, displacement, level_structure):
         '''
             We check player input and detect if a movement is allowed or not
             (is there a Wall 'W' on the way?)
@@ -14,28 +29,14 @@ class Character:
             init_pos: player's initial position in the labyrinth
             level_structure: an array that represents the level structure
         '''
-
-        line_pos = init_pos[0]
-        col_pos = init_pos[1]
+       
+        if displacement == 'up' and level_structure[self.line_pos - 1][self.col_pos] != 'W':
+            self.line_pos -= 1
+        elif displacement == 'down' and level_structure[self.line_pos + 1][self.col_pos] != 'W':
+            self.line_pos += 1
+        elif displacement == 'left' and level_structure[self.line_pos][self.col_pos - 1] != 'W':
+            self.col_pos -= 1
+        elif displacement == 'right' and level_structure[self.line_pos][self.col_pos +1] != 'W':
+            self.col_pos += 1
         
-        if displacement == 'up' and level_structure[line_pos - 1][col_pos] != 'W':
-            line_pos -= 1
-        elif displacement == 'down' and level_structure[line_pos + 1][col_pos] != 'W':
-            line_pos += 1
-        elif displacement == 'left' and level_structure[line_pos][col_pos - 1] != 'W':
-            col_pos -= 1
-        elif displacement == 'right' and level_structure[line_pos][col_pos +1] != 'W':
-            col_pos += 1
-        
-        return [line_pos, col_pos]
-
-    def character_spawn(self, level_structure):
-        '''
-        Method used to return player's position at the beginning of the game
-        '''
-        spawn_coordinates = []
-        for line in level_structure:
-            for tile in line:
-                if tile == 'S':
-                    spawn_coordinates = [level_structure.index(line), line.index(tile)]
-        return spawn_coordinates
+        return [self.line_pos, self.col_pos]

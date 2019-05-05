@@ -39,4 +39,4 @@ class Character:
         elif displacement == 'right' and level_structure[self.line_pos][self.col_pos +1] != 'W':
             self.col_pos += 1
         
-        return [self.line_pos, self.col_pos]
+        return [self.col_pos, self.line_pos]

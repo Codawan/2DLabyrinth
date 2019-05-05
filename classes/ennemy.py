@@ -10,4 +10,4 @@ class Ennemy:
                 if character == 'E':
                     row_position = line.index(character)
                     line_position = level_structure.index(line)
-        return (row_position, line_position)
+        return [row_position, line_position]

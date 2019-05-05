@@ -38,7 +38,7 @@ level_struct = laby.level_load()
 # let's create player's object, and initialize its position
 macgyver = pygame.image.load(MACGYVER_SPRITE) 
 player = Character(level_struct)
-player_pos = [player.line_pos, player.col_pos]
+player_pos = [player.col_pos, player.line_pos]
 
 # variable to keep our main loop running:
 running = True
@@ -99,21 +99,20 @@ while running:
                 pygame.quit()
                 sys.exit(0)
 
-    if player_pos[0] == ether_position[1][1] and player_pos[1] == ether_position[1][0]:
+    if player_pos == ether_position[1]:
         ether_taken = True
         
-    if player_pos[0] == needle_position[1][1] and player_pos[1] == needle_position[1][0]:
+    if player_pos == needle_position[1]:
         needle_taken = True
 
-    if player_pos[0] == syringe_position[1][1] and player_pos[1] == syringe_position[1][0]:
+    if player_pos == syringe_position[1]:
         syringe_taken = True
 
     if ether_taken and needle_taken and syringe_taken:
         all_items_taken = True
 
-
     # Won or game over
-    if player_pos[0] == murdoc_position[1] and player_pos[1] == murdoc_position[0]:
+    if player_pos == murdoc_position:
         if all_items_taken == True:
             print('You win')
         else:
@@ -130,7 +129,7 @@ while running:
     if needle_taken == False:
         screen.blit(needle, (needle_position[1][0]*SQUARED_OFFSET, needle_position[1][1]*SQUARED_OFFSET))
     screen.blit(murdoc_sprite, (murdoc_position[0]*SQUARED_OFFSET, murdoc_position[1]*SQUARED_OFFSET))  
-    screen.blit(macgyver, (player_pos[1]* SQUARED_OFFSET, player_pos[0]* SQUARED_OFFSET))
+    screen.blit(macgyver, (player_pos[0]* SQUARED_OFFSET, player_pos[1]* SQUARED_OFFSET))
 
     pygame.display.flip()
         

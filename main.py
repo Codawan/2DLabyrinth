@@ -21,6 +21,8 @@ from classes import ennemy as guardian
 
 pygame.init()
 
+fpsClock = pygame.time.Clock()
+
 # Let's initialize our window
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), RESIZABLE)
 pygame.display.set_caption(WINDOW_TITLE)
@@ -40,8 +42,20 @@ macgyver = pygame.image.load(MACGYVER_SPRITE)
 player = Character(level_struct)
 player_pos = [player.col_pos, player.line_pos]
 
-# variable to keep our main loop running:
-running = True
+# variable to keep our main game loop running:
+main_game = True
+
+# variables that define the end of the game:
+win = False
+lose = False
+# pygame font object to draw end game text:
+game_font = pygame.font.Font(GAME_FONT, 30)
+text_win_surface = game_font.render(WIN_TEXT, True, WHITE)
+text_win_rect = text_win_surface.get_rect()
+text_win_rect.center = SCREEN_CENTER
+text_lose_surface = game_font.render(LOSE_TEXT, True, RED)
+text_lose_rect = text_win_surface.get_rect()
+text_lose_rect.center = SCREEN_CENTER
 
 # Add our first item: Ether
 ether = pygame.image.load(ETHER_SPRITE)
@@ -76,7 +90,7 @@ print(murdoc_position)
 item_count = 0
 
 # Our main loop:
-while running:
+while main_game:
 
     for event in pygame.event.get():
 
@@ -111,25 +125,34 @@ while running:
     if ether_taken and needle_taken and syringe_taken:
         all_items_taken = True
 
-    # Won or game over
-    if player_pos == murdoc_position:
+    # Won or game over when being next to the ennemy
+    if player_pos == [murdoc_position[0]-1, murdoc_position[1]]:
         if all_items_taken == True:
-            print('You win')
+            win = True
         else:
-            print('You lose')
+            lose = True
 
     # Let's update each graphical element   
     screen.fill(BLACK)
-    laby.level_display(screen, wall_file, SQUARED_OFFSET)
-    
-    if ether_taken == False:
-        screen.blit(ether, (ether_position[1][0]*SQUARED_OFFSET, ether_position[1][1]*SQUARED_OFFSET))
-    if syringe_taken == False:
-        screen.blit(syringe, (syringe_position[1][0]*SQUARED_OFFSET, syringe_position[1][1]*SQUARED_OFFSET))
-    if needle_taken == False:
-        screen.blit(needle, (needle_position[1][0]*SQUARED_OFFSET, needle_position[1][1]*SQUARED_OFFSET))
-    screen.blit(murdoc_sprite, (murdoc_position[0]*SQUARED_OFFSET, murdoc_position[1]*SQUARED_OFFSET))  
-    screen.blit(macgyver, (player_pos[0]* SQUARED_OFFSET, player_pos[1]* SQUARED_OFFSET))
+
+    if win == True:
+        screen.blit(text_win_surface, text_win_rect)
+    elif lose == True:
+        screen.blit(text_lose_surface, text_lose_rect)
+    else:
+        laby.level_display(screen, wall_file, SQUARED_OFFSET)
+        if ether_taken == False:
+            screen.blit(ether, (ether_position[1][0]*SQUARED_OFFSET, ether_position[1][1]*SQUARED_OFFSET))
+        if syringe_taken == False:
+            screen.blit(syringe, (syringe_position[1][0]*SQUARED_OFFSET, syringe_position[1][1]*SQUARED_OFFSET))
+        if needle_taken == False:
+            screen.blit(needle, (needle_position[1][0]*SQUARED_OFFSET, needle_position[1][1]*SQUARED_OFFSET))
+        screen.blit(murdoc_sprite, (murdoc_position[0]*SQUARED_OFFSET, murdoc_position[1]*SQUARED_OFFSET))  
+        screen.blit(macgyver, (player_pos[0]* SQUARED_OFFSET, player_pos[1]* SQUARED_OFFSET))        
 
     pygame.display.flip()
+    
+    fpsClock.tick(FPS)
+
+
         

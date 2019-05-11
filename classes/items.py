@@ -1,5 +1,5 @@
-import random
 from random import randint
+
 
 class Item:
     '''
@@ -9,7 +9,7 @@ class Item:
         level_structure: a level structure given
         sprite: picture of the item
     '''
-    def __init__(self, level_structure, sprite, item_position = []):
+    def __init__(self, level_structure, sprite, item_position=[]):
         self.level_structure = level_structure
         self.sprite = sprite
 
@@ -21,28 +21,29 @@ class Item:
                 if tile == ' ':
                     empty_places += 1
         # Let's assign a position to our item
-        # Our item will be assigned a random number between 0 and the total number of empty places:
-        item_random_spot = randint(0, empty_places)     
-        # Let's stock our item coordinates in a list:  
+        # Our item will be assigned a random number between 0
+        # and the total number of empty places:
+        item_random_spot = randint(0, empty_places)
+        # Let's stock our item coordinates in a list:
         self.item_position = []
         x = 0
         for i in range(0, len(self.level_structure)):
             for j in range(0, len(self.level_structure[0])):
                 if self.level_structure[i][j] == ' ':
                     if x != item_random_spot:
-                        x+=1
-                    else: # Let's replace - in our level structure - an empty place with the item
-                        self.level_structure[i] = self.level_structure[i][0:j] + 'I' + self.level_structure[i][j+1:]
+                        x += 1
+                    else:  # Let's replace, in our level structure
+                        # an empty place with the item
+                        self.level_structure[i] = self.level_structure[i][0:j]\
+                            + 'I' + self.level_structure[i][j+1:]
                         # Let's get our item position
                         self.item_position.append(j)
-                        self.item_position.append(i)                                            
-                        x+=1      
+                        self.item_position.append(i)
+                        x += 1
 
     def check_if_taken(self, player_coordinates):
         '''
             Method that checks if the player takes the object.
         '''
         if self.item_position == player_coordinates:
-            print('taken')
             return(True)
-

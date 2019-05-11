@@ -1,5 +1,5 @@
 class Labyrinth:
-    
+
     def __init__(self, level_file):
         self.level_file = level_file
 

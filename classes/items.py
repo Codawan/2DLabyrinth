@@ -9,14 +9,11 @@ class Item:
         level_structure: a level structure given
         sprite: picture of the item
     '''
-    def __init__(self, level_structure):
+    def __init__(self, level_structure, sprite, item_position = []):
         self.level_structure = level_structure
+        self.sprite = sprite
 
-    def item_positioning(self):
-        '''
-            Method that put the item in the structure in on an empty
-            place, and draw it
-        '''
+        # Assign a position to the item:
         # Let's count the number of places available
         empty_places = 0
         for line in self.level_structure:
@@ -27,7 +24,7 @@ class Item:
         # Our item will be assigned a random number between 0 and the total number of empty places:
         item_random_spot = randint(0, empty_places)     
         # Let's stock our item coordinates in a list:  
-        item_position = []
+        self.item_position = []
         x = 0
         for i in range(0, len(self.level_structure)):
             for j in range(0, len(self.level_structure[0])):
@@ -37,12 +34,15 @@ class Item:
                     else: # Let's replace - in our level structure - an empty place with the item
                         self.level_structure[i] = self.level_structure[i][0:j] + 'I' + self.level_structure[i][j+1:]
                         # Let's get our item position
-                        item_position.append(j)
-                        item_position.append(i)
-                                            
-                        x+=1
-        return [self.level_structure, item_position]
+                        self.item_position.append(j)
+                        self.item_position.append(i)                                            
+                        x+=1      
 
-
-
+    def check_if_taken(self, player_coordinates):
+        '''
+            Method that checks if the player takes the object.
+        '''
+        if self.item_position == player_coordinates:
+            print('taken')
+            return(True)
 

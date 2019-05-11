@@ -38,7 +38,8 @@ pygame.display.flip()
 level_struct = laby.level_load()
 
 # let's create player's object, and initialize its position
-macgyver = pygame.image.load(MACGYVER_SPRITE) 
+macgyver = pygame.image.load(MACGYVER_SPRITE)
+macgyver = pygame.transform.scale(macgyver, (24, 30))
 player = Character(level_struct)
 player_pos = [player.col_pos, player.line_pos]
 
@@ -60,98 +61,96 @@ text_lose_rect.center = SCREEN_CENTER
 # Add our first item: Ether
 ether = pygame.image.load(ETHER_SPRITE)
 ether = pygame.transform.scale(ether, (TILE_SIZE, TILE_SIZE))
-ether_item = item.Item(level_struct)
-ether_position = ether_item.item_positioning()
-ether_taken = False
+ether_item = item.Item(level_struct , ether)
 
 # Add our second item: Syringe
 syringe = pygame.image.load(SYRINGE_SPRITE)
 syringe = pygame.transform.scale(syringe, (TILE_SIZE, TILE_SIZE))
-syringe_item = item.Item(level_struct)
-syringe_position = syringe_item.item_positioning()
-syringe_taken = False
+syringe_item = item.Item(level_struct, syringe)
 
 # Add our third item: Needle
 needle = pygame.image.load(NEEDLE_SPRITE)
 needle = pygame.transform.scale(needle, (TILE_SIZE, TILE_SIZE))
-needle_item = item.Item(level_struct)
-needle_position = needle_item.item_positioning()
-needle_taken = False
+needle_item = item.Item(level_struct, needle)
 
+item_list = [ether_item, syringe_item, needle_item]
+item_needed = len(item_list)
+item_count = 0
 all_items_taken = False
+
+# Item counter display
+counter_font = pygame.font.Font(GAME_FONT, 12)
+text_counter_surface = counter_font.render('Items taken: ' + str(item_count), True, WHITE)
+text_counter_rect = text_counter_surface.get_rect()
+text_counter_rect.center = (SCREEN_WIDTH - 100, 15)
 
 # Add the ennemy
 murdoc_sprite = pygame.image.load(MURDOC_SPRITE)
+murdoc_sprite = pygame.transform.scale(murdoc_sprite, (27, 30))
 murdoc = guardian.Ennemy()
 murdoc_position = murdoc.ennemy_position(level_struct)
-print(murdoc_position)
 
-# items counter
-item_count = 0
 
 # Our main loop:
 while main_game:
 
-    for event in pygame.event.get():
+    # let's fill the background with black color
+    screen.fill(BLACK)
 
-        # Quit the game and close the window
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit(0)
+    if win:
+        screen.blit(text_win_surface, text_win_rect)
+    elif lose:
+        screen.blit(text_lose_surface, text_lose_rect)
+    else:
 
-        # Check for player's input during the game
-        if event.type == KEYDOWN:
-            if event.key == K_UP:
-                player_pos = player.char_displacement('up', level_struct)
-            if event.key == K_DOWN:
-                player_pos = player.char_displacement('down', level_struct)
-            if event.key == K_LEFT:
-                player_pos = player.char_displacement('left', level_struct)
-            if event.key == K_RIGHT:
-                player_pos = player.char_displacement('right', level_struct)
-            if event.key == K_ESCAPE:
+        for event in pygame.event.get():
+
+            # Quit the game and close the window
+            if event.type == QUIT:
                 pygame.quit()
                 sys.exit(0)
 
-    if player_pos == ether_position[1]:
-        ether_taken = True
+            # Check for player's input during the game
+            if event.type == KEYDOWN:
+                if event.key == K_UP:
+                    player_pos = player.char_displacement('up', level_struct)
+                if event.key == K_DOWN:
+                    player_pos = player.char_displacement('down', level_struct)
+                if event.key == K_LEFT:
+                    player_pos = player.char_displacement('left', level_struct)
+                if event.key == K_RIGHT:
+                    player_pos = player.char_displacement('right', level_struct)
+                if event.key == K_ESCAPE:
+                    pygame.quit()
+                    sys.exit(0)
+
+        for item in item_list:        
+            if item.check_if_taken(player_pos):
+                item_count += 1
+                item_list.remove(item)
+                print(item_count)
+            else:
+                screen.blit(item.sprite, (item.item_position[0]*SQUARED_OFFSET, item.item_position[1]*SQUARED_OFFSET))
+                
         
-    if player_pos == needle_position[1]:
-        needle_taken = True
+        if item_count == item_needed:
+            all_items_taken = True
+            
+        # Won or game over when being next to the ennemy
+        if player_pos == [murdoc_position[0]-1, murdoc_position[1]]:
+            if all_items_taken == True:
+                win = True
+            else:
+                lose = True  
 
-    if player_pos == syringe_position[1]:
-        syringe_taken = True
-
-    if ether_taken and needle_taken and syringe_taken:
-        all_items_taken = True
-
-    # Won or game over when being next to the ennemy
-    if player_pos == [murdoc_position[0]-1, murdoc_position[1]]:
-        if all_items_taken == True:
-            win = True
-        else:
-            lose = True
-
-    # Let's update each graphical element   
-    screen.fill(BLACK)
-
-    if win == True:
-        screen.blit(text_win_surface, text_win_rect)
-    elif lose == True:
-        screen.blit(text_lose_surface, text_lose_rect)
-    else:
         laby.level_display(screen, wall_file, SQUARED_OFFSET)
-        if ether_taken == False:
-            screen.blit(ether, (ether_position[1][0]*SQUARED_OFFSET, ether_position[1][1]*SQUARED_OFFSET))
-        if syringe_taken == False:
-            screen.blit(syringe, (syringe_position[1][0]*SQUARED_OFFSET, syringe_position[1][1]*SQUARED_OFFSET))
-        if needle_taken == False:
-            screen.blit(needle, (needle_position[1][0]*SQUARED_OFFSET, needle_position[1][1]*SQUARED_OFFSET))
         screen.blit(murdoc_sprite, (murdoc_position[0]*SQUARED_OFFSET, murdoc_position[1]*SQUARED_OFFSET))  
         screen.blit(macgyver, (player_pos[0]* SQUARED_OFFSET, player_pos[1]* SQUARED_OFFSET))        
+        
+        text_counter_surface = counter_font.render('Items taken: ' + str(item_count), True, WHITE)
+        screen.blit(text_counter_surface, text_counter_rect)
 
-    pygame.display.flip()
-    
+    pygame.display.flip()    
     fpsClock.tick(FPS)
 
 

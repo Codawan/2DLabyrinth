@@ -1,3 +1,8 @@
+'''
+    File that contains every single constant
+    needed in the game
+'''
+
 # Game attributes
 FPS = 30
 

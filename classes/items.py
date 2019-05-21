@@ -44,6 +44,9 @@ class Item:
     def check_if_taken(self, player_coordinates):
         '''
             Method that checks if the player takes the object.
+
+            player_coordinates: coordinates of an instance of
+            Character's class that defines the player.
         '''
         if self.item_position == player_coordinates:
             return(True)

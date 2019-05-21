@@ -1,4 +1,8 @@
 class Labyrinth:
+    '''
+        Class that defines the labyrinth,
+        read its structure, and displays it.
+    '''
 
     def __init__(self, level_file):
         self.level_file = level_file
@@ -27,7 +31,7 @@ class Labyrinth:
             wall_sprite = pygame surface made of image file
             offset = offset defined by the size of each tile on screen
         '''
-        # init sprite coordinates, on top left of the screen
+        # initialize sprite's coordinates, on top left of the screen
         sprite_x = 0
         sprite_y = 0
         for line in self.level_load():

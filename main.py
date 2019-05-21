@@ -1,9 +1,16 @@
 import sys
 
 import pygame
-from pygame.locals import *
+from pygame.locals import RESIZABLE, QUIT, \
+     KEYDOWN, K_UP, K_DOWN, K_LEFT, K_RIGHT, \
+     K_ESCAPE
 
-from constants import *
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, \
+    WINDOW_TITLE, BLACK, WALL_SPRITE, LEVEL_FILE, \
+    SQUARED_OFFSET, MACGYVER_SPRITE, GAME_FONT, WIN_TEXT, \
+    WHITE, SCREEN_CENTER, LOSE_TEXT, RED, ETHER_SPRITE, \
+    TILE_SIZE, SYRINGE_SPRITE, NEEDLE_SPRITE, MURDOC_SPRITE, \
+    FPS
 
 from classes import labyrinth as lab
 from classes import character as char
@@ -12,6 +19,9 @@ from classes import ennemy as guardian
 
 
 def main():
+    '''
+        Main function of the game
+    '''
 
     pygame.init()
 
@@ -83,8 +93,7 @@ def main():
     # Add the ennemy
     murdoc_sprite = pygame.image.load(MURDOC_SPRITE)
     murdoc_sprite = pygame.transform.scale(murdoc_sprite, (27, 30))
-    murdoc = guardian.Ennemy()
-    murdoc_position = murdoc.ennemy_position(level_struct)
+    murdoc = guardian.Ennemy(level_struct)
 
     # Our main loop:
     while main_game:
@@ -135,15 +144,15 @@ def main():
                 all_items_taken = True
 
             # Won or game over when being next to the ennemy
-            if player_pos == [murdoc_position[0]-1, murdoc_position[1]]:
+            if player_pos == [murdoc.position[0]-1, murdoc.position[1]]:
                 if all_items_taken:
                     win = True
                 else:
                     lose = True
 
             laby.level_display(screen, wall_file, SQUARED_OFFSET)
-            screen.blit(murdoc_sprite, (murdoc_position[0]*SQUARED_OFFSET,
-                                        murdoc_position[1]*SQUARED_OFFSET))
+            screen.blit(murdoc_sprite, (murdoc.position[0] * SQUARED_OFFSET,
+                                        murdoc.position[1] * SQUARED_OFFSET))
             screen.blit(macgyver, (player_pos[0] * SQUARED_OFFSET,
                                    player_pos[1] * SQUARED_OFFSET))
 

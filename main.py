@@ -1,6 +1,17 @@
+'''
+
+    This is the main file of the labyrinth game.
+    Here is the main() function, dealing with the display
+    of all the graphics (with pygame), and containing
+    the main game loop. Here will also be stated all 
+    the instances of the classes needed.
+
+'''
+
 import sys
 
 import pygame
+
 from pygame.locals import RESIZABLE, QUIT, \
      KEYDOWN, K_UP, K_DOWN, K_LEFT, K_RIGHT, \
      K_ESCAPE
@@ -25,21 +36,21 @@ def main():
 
     pygame.init()
 
-    fpsClock = pygame.time.Clock()
+    fps_clock = pygame.time.Clock()
 
     # Let's initialize our window
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), RESIZABLE)
     pygame.display.set_caption(WINDOW_TITLE)
     screen.fill(BLACK)  # our background is set to black
 
+    # We will use 'extracted' level data to move our character
+    laby = lab.Labyrinth(LEVEL_FILE)
+    level_struct = laby.level_load()
+
     # Let's draw the labyrinth once here
     wall_file = pygame.image.load(WALL_SPRITE).convert()
-    laby = lab.Labyrinth(LEVEL_FILE)
-    laby.level_display(screen, wall_file, SQUARED_OFFSET)
+    laby.level_display(screen, wall_file, SQUARED_OFFSET, level_struct)
     pygame.display.flip()
-
-    # We will use 'extracted' level data to move our character
-    level_struct = laby.level_load()
 
     # let's create player's object, and initialize its position
     macgyver = pygame.image.load(MACGYVER_SPRITE)
@@ -150,7 +161,7 @@ def main():
                 else:
                     lose = True
 
-            laby.level_display(screen, wall_file, SQUARED_OFFSET)
+            laby.level_display(screen, wall_file, SQUARED_OFFSET, level_struct)
             screen.blit(murdoc_sprite, (murdoc.position[0] * SQUARED_OFFSET,
                                         murdoc.position[1] * SQUARED_OFFSET))
             screen.blit(macgyver, (player_pos[0] * SQUARED_OFFSET,
@@ -162,7 +173,7 @@ def main():
             screen.blit(text_counter_surface, text_counter_rect)
 
         pygame.display.flip()
-        fpsClock.tick(FPS)
+        fps_clock.tick(FPS)
 
 
 if __name__ == "__main__":

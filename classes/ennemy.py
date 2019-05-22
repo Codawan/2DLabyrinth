@@ -1,3 +1,7 @@
+'''
+    This file contains the Ennemy class only.
+'''
+
 class Ennemy:
     '''
         Class that defines the ennemy, and his

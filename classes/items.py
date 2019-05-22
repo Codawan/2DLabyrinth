@@ -1,3 +1,7 @@
+'''
+    This file contains the Item class only.
+'''
+
 from random import randint
 
 
@@ -9,7 +13,7 @@ class Item:
         level_structure: a level structure given
         sprite: picture of the item
     '''
-    def __init__(self, level_structure, sprite, item_position=[]):
+    def __init__(self, level_structure, sprite):
         self.level_structure = level_structure
         self.sprite = sprite
 
@@ -26,20 +30,19 @@ class Item:
         item_random_spot = randint(0, empty_places)
         # Let's stock our item coordinates in a list:
         self.item_position = []
-        x = 0
+        empty_count = 0
         for i in range(0, len(self.level_structure)):
             for j in range(0, len(self.level_structure[0])):
                 if self.level_structure[i][j] == ' ':
-                    if x != item_random_spot:
-                        x += 1
-                    else:  # Let's replace, in our level structure
+                    if empty_count == item_random_spot:
+                        # Let's replace, in our level structure
                         # an empty place with the item
                         self.level_structure[i] = self.level_structure[i][0:j]\
                             + 'I' + self.level_structure[i][j+1:]
                         # Let's get our item position
                         self.item_position.append(j)
                         self.item_position.append(i)
-                        x += 1
+                    empty_count += 1
 
     def check_if_taken(self, player_coordinates):
         '''
@@ -49,4 +52,4 @@ class Item:
             Character's class that defines the player.
         '''
         if self.item_position == player_coordinates:
-            return(True)
+            return True

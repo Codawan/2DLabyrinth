@@ -1,4 +1,15 @@
+'''
+    This file contains the Character class only.
+'''
+
 class Character:
+    '''
+    This class is used to initialize the player's
+    position at the beginning of the game.
+    It also checks if the player can move or not
+    regarding his position in the labyrinth.
+
+    '''
 
     def __init__(self, level_structure):
         '''

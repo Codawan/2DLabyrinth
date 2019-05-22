@@ -1,3 +1,7 @@
+'''
+    This class contains the Labyrinth class only.
+'''
+
 class Labyrinth:
     '''
         Class that defines the labyrinth,
@@ -23,7 +27,7 @@ class Labyrinth:
                 level_structure.append(line)
         return level_structure
 
-    def level_display(self, screen, wall_sprite, offset):
+    def level_display(self, screen, wall_sprite, offset, level_structure):
         '''
             Uses pygame to display the level as graphic elements.
 
@@ -34,12 +38,11 @@ class Labyrinth:
         # initialize sprite's coordinates, on top left of the screen
         sprite_x = 0
         sprite_y = 0
-        for line in self.level_load():
+        for line in level_structure:
             for tile in line:
                 if tile == 'W':
                     screen.blit(wall_sprite, (sprite_x, sprite_y))
-                    sprite_x += offset
-                else:
-                    sprite_x += offset
+                sprite_x += offset
+            # at the end of the line, increment sprite_y, reset sprite_x
             sprite_y += offset
             sprite_x = 0
